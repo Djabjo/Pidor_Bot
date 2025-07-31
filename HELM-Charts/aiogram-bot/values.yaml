@@ -1,6 +1,6 @@
 replicaCount: 1
 imagebot:
-  repository: djabjo/pidor_bot
+  repository: djabjo/pidor-bot
   tag: 0.0.1
   pullPolicy: Always
 
