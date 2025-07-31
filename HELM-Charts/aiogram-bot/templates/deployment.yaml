@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "my-bot.fullname" . }}
+  labels:
+    {{- include "my-bot.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "my-bot.labels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "my-bot.labels" . | nindent 8 }}
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.imagebot.repository }}:{{ .Values.imagebot.tag }}"
+          env:
+          - name: TELEGRAM_BOT_TOKEN
+            valueFrom:
+              secretKeyRef:
+                  name: {{ .Values.bot.SecretTOKEN }} 
+                  key: telegram-token
+        volumeMounts:
+        - name: data-storage
+          mountPath: /db_user
+      volumes:
+      - name: data-storage
+        persistentVolumeClaim:
+          claimName: pidor-bot-pvc
+      nodeSelector:
+        node-role: worker2
+{{- with .Values.nodeSelector }}
+nodeSelector:
+  {{- toYaml . | nindent 4 }}
+{{- end }}
