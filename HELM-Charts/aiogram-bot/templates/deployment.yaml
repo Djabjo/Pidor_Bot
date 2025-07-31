@@ -23,13 +23,13 @@ spec:
               secretKeyRef:
                   name: {{ .Values.bot.SecretTOKEN }} 
                   key: telegram-token
-        volumeMounts:
-        - name: data-storage
-          mountPath: /db_user
+          volumeMounts:
+          - name: data-storage
+            mountPath: /db_user
       volumes:
-      - name: data-storage
-        persistentVolumeClaim:
-          claimName: pidor-bot-pvc
+        - name: data-storage
+          persistentVolumeClaim:
+            claimName: pidor-bot-pvc
       nodeSelector:
         node-role: worker2
 {{- with .Values.nodeSelector }}
