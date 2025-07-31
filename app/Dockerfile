@@ -15,6 +15,6 @@ RUN pip install --upgrade pip && \
 
 COPY . .
 
-COPY Bot_memorizer.py .
+COPY bot.py .
 
 CMD ["/bin/bash", "-c", "python bot.py"]
